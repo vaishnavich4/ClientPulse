@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revenue & Engagement | ClientPulse</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <h1>ClientPulse</h1>
+            <p>Customer Intelligence</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item">Dashboard</a>
+            <a href="customers.html" class="nav-item">Customers</a>
+            <a href="customer-segments.html" class="nav-item">Customer Segments</a>
+            <a href="retention.html" class="nav-item">Retention</a>
+            <a href="at-risk.html" class="nav-item">At-Risk Customers</a>
+            <a href="revenue-engagement.html" class="nav-item active">Revenue & Engagement</a>
+        </nav>
+
+    </aside>
+
+    <main class="main-content">
+
+        <header class="top-header">
+            <div>
+                <h2>Revenue & Engagement</h2>
+                <p>Monitor revenue performance and customer activity</p>
+            </div>
+
+            <div class="user-area">
+                <span>Welcome</span>
+            </div>
+        </header>
+
+        <section class="dashboard-content">
+
+            <div class="page-intro">
+                <h2>Revenue Performance</h2>
+                <p>Review revenue contribution across regions and products.</p>
+            </div>
+
+            <div class="kpi-grid">
+
+                <div class="kpi-card">
+                    <span class="kpi-label">Total Revenue</span>
+                    <strong id="totalRevenue">Loading...</strong>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-label">Total Quantity</span>
+                    <strong id="totalQuantity">Loading...</strong>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-label">Active Customers</span>
+                    <strong id="activeCustomers">Loading...</strong>
+                </div>
+
+            </div>
+
+            <div class="table-card">
+
+                <div class="card-header">
+                    <h3>Revenue by Region</h3>
+                </div>
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Region</th>
+                                <th>Revenue</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="regionTableBody">
+
+                            <tr>
+                                <td colspan="2" class="table-message">
+                                    Loading regional revenue...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div class="table-card">
+
+                <div class="card-header">
+                    <h3>Revenue by Product</h3>
+                </div>
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Revenue</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="productTableBody">
+
+                            <tr>
+                                <td colspan="2" class="table-message">
+                                    Loading product revenue...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div class="table-card">
+
+                <div class="card-header">
+                    <h3>Customer Activity</h3>
+                </div>
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Region</th>
+                                <th>Quantity</th>
+                                <th>Sales</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="activityTableBody">
+
+                            <tr>
+                                <td colspan="6" class="table-message">
+                                    Loading customer activity...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+const API_BASE_URL = "http://127.0.0.1:5000/api";
+
+async function loadRevenueEngagement() {
+
+    try {
+
+        const dashboardResponse =
+            await fetch(`${API_BASE_URL}/analytics/dashboard`);
+
+        const regionResponse =
+            await fetch(`${API_BASE_URL}/analytics/revenue-by-region`);
+
+        const productResponse =
+            await fetch(`${API_BASE_URL}/analytics/revenue-by-product`);
+
+        const activityResponse =
+            await fetch(`${API_BASE_URL}/analytics/activity`);
+
+        if (
+            !dashboardResponse.ok ||
+            !regionResponse.ok ||
+            !productResponse.ok ||
+            !activityResponse.ok
+        ) {
+            throw new Error("Failed to load revenue data");
+        }
+
+        const dashboard =
+            await dashboardResponse.json();
+
+        const regions =
+            await regionResponse.json();
+
+        const products =
+            await productResponse.json();
+
+        const activities =
+            await activityResponse.json();
+
+        document.getElementById("totalRevenue").textContent =
+            `₹${Number(dashboard.total_revenue).toLocaleString("en-IN")}`;
+
+        document.getElementById("totalQuantity").textContent =
+            dashboard.total_quantity;
+
+        document.getElementById("activeCustomers").textContent =
+            dashboard.active_customers;
+
+        const regionTable =
+            document.getElementById("regionTableBody");
+
+        regionTable.innerHTML = "";
+
+        regions.forEach(region => {
+
+            const row =
+                document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${region.region}</td>
+                <td>₹${Number(region.revenue).toLocaleString("en-IN")}</td>
+            `;
+
+            regionTable.appendChild(row);
+        });
+
+        const productTable =
+            document.getElementById("productTableBody");
+
+        productTable.innerHTML = "";
+
+        products.forEach(product => {
+
+            const row =
+                document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${product.product}</td>
+                <td>₹${Number(product.revenue).toLocaleString("en-IN")}</td>
+            `;
+
+            productTable.appendChild(row);
+        });
+
+        const activityTable =
+            document.getElementById("activityTableBody");
+
+        activityTable.innerHTML = "";
+
+        activities.forEach(activity => {
+
+            const row =
+                document.createElement("tr");
+
+            const date =
+                activity.full_date
+                    ? new Date(activity.full_date)
+                        .toLocaleDateString("en-IN")
+                    : "-";
+
+            row.innerHTML = `
+                <td>${date}</td>
+                <td>${activity.customer_name || "-"}</td>
+                <td>${activity.product_name || "-"}</td>
+                <td>${activity.region_name || "-"}</td>
+                <td>${activity.quantity || 0}</td>
+                <td>₹${Number(activity.sales_amount || 0).toLocaleString("en-IN")}</td>
+            `;
+
+            activityTable.appendChild(row);
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("totalRevenue").textContent = "Error";
+        document.getElementById("totalQuantity").textContent = "Error";
+        document.getElementById("activeCustomers").textContent = "Error";
+
+        document.getElementById("regionTableBody").innerHTML = `
+            <tr>
+                <td colspan="2" class="table-message">
+                    Unable to load regional revenue.
+                </td>
+            </tr>
+        `;
+
+        document.getElementById("productTableBody").innerHTML = `
+            <tr>
+                <td colspan="2" class="table-message">
+                    Unable to load product revenue.
+                </td>
+            </tr>
+        `;
+
+        document.getElementById("activityTableBody").innerHTML = `
+            <tr>
+                <td colspan="6" class="table-message">
+                    Unable to load customer activity.
+                </td>
+            </tr>
+        `;
+    }
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadRevenueEngagement
+);
+</script>
+
+</body>
+</html>

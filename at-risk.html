@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>At-Risk Customers | ClientPulse</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <h1>ClientPulse</h1>
+            <p>Customer Intelligence</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item">Dashboard</a>
+            <a href="customers.html" class="nav-item">Customers</a>
+            <a href="customer-segments.html" class="nav-item">Customer Segments</a>
+            <a href="retention.html" class="nav-item">Retention</a>
+            <a href="at-risk.html" class="nav-item active">At-Risk Customers</a>
+            <a href="revenue-engagement.html" class="nav-item">Revenue & Engagement</a>
+        </nav>
+
+    </aside>
+
+    <main class="main-content">
+
+        <header class="top-header">
+            <div>
+                <h2>At-Risk Customers</h2>
+                <p>Identify customers who may require attention</p>
+            </div>
+
+            <div class="user-area">
+                <span>Welcome</span>
+            </div>
+        </header>
+
+        <section class="dashboard-content">
+
+            <div class="page-intro">
+                <h2>Customers Requiring Attention</h2>
+                <p>Review customers currently classified as at risk.</p>
+            </div>
+
+            <div class="kpi-grid">
+
+                <div class="kpi-card">
+                    <span class="kpi-label">At-Risk Customers</span>
+                    <strong id="atRiskCount">Loading...</strong>
+                </div>
+
+            </div>
+
+            <div class="table-card">
+
+                <div class="card-header">
+                    <h3>At-Risk Customer List</h3>
+                </div>
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Customer</th>
+                                <th>Email</th>
+                                <th>Region</th>
+                                <th>Segment</th>
+                                <th>Signup Date</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="atRiskTableBody">
+
+                            <tr>
+                                <td colspan="6" class="table-message">
+                                    Loading at-risk customers...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+const API_BASE_URL = "http://127.0.0.1:5000/api";
+
+async function loadAtRiskCustomers() {
+
+    const tableBody =
+        document.getElementById("atRiskTableBody");
+
+    const countElement =
+        document.getElementById("atRiskCount");
+
+    try {
+
+        const response =
+            await fetch(`${API_BASE_URL}/analytics/at-risk`);
+
+        if (!response.ok) {
+            throw new Error("Failed to load at-risk customers");
+        }
+
+        const customers =
+            await response.json();
+
+        countElement.textContent =
+            customers.length;
+
+        if (customers.length === 0) {
+
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="table-message">
+                        No at-risk customers found.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        tableBody.innerHTML = "";
+
+        customers.forEach(customer => {
+
+            const row =
+                document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${customer.customer_id || "-"}</td>
+                <td>${customer.customer_name || "-"}</td>
+                <td>${customer.email || "-"}</td>
+                <td>${customer.region || "-"}</td>
+                <td>${customer.customer_segment || "-"}</td>
+                <td>${customer.signup_date || "-"}</td>
+            `;
+
+            tableBody.appendChild(row);
+
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        countElement.textContent = "Error";
+
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="6" class="table-message">
+                    Unable to load at-risk customers.
+                </td>
+            </tr>
+        `;
+    }
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadAtRiskCustomers
+);
+</script>
+
+</body>
+</html>

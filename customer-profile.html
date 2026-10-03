@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Profile | ClientPulse</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+    <div class="app-container">
+
+
+        <!-- Sidebar -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <h1>ClientPulse</h1>
+
+                <p>Customer Intelligence</p>
+
+            </div>
+
+
+            <nav class="sidebar-nav">
+
+                <a href="index.html" class="nav-item">
+                    Dashboard
+                </a>
+
+                <a href="customers.html" class="nav-item active">
+                    Customers
+                </a>
+
+                <a href="#" class="nav-item">
+                    Customer Segments
+                </a>
+
+                <a href="#" class="nav-item">
+                    Retention
+                </a>
+
+                <a href="#" class="nav-item">
+                    At-Risk Customers
+                </a>
+
+                <a href="#" class="nav-item">
+                    Revenue & Engagement
+                </a>
+
+                <a href="#" class="nav-item">
+                    Insights
+                </a>
+
+                <a href="#" class="nav-item">
+                    Reports
+                </a>
+
+                <a href="#" class="nav-item">
+                    Settings
+                </a>
+
+            </nav>
+
+        </aside>
+
+
+        <!-- Main Content -->
+
+        <main class="main-content">
+
+
+            <!-- Header -->
+
+            <header class="top-header">
+
+                <div>
+
+                    <h2>Customer Profile</h2>
+
+                    <p>
+                        Detailed customer information and activity
+                    </p>
+
+                </div>
+
+
+                <div class="user-area">
+
+                    <span>Welcome</span>
+
+                </div>
+
+            </header>
+
+
+            <!-- Page Content -->
+
+            <section class="dashboard-content">
+
+
+                <!-- Back -->
+
+                <div class="page-intro">
+
+                    <a
+                        href="customers.html"
+                        style="text-decoration: none; color: #2563eb;"
+                    >
+                        ← Back to Customers
+                    </a>
+
+                </div>
+
+
+                <!-- Customer Information -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+
+                        <h3>Customer Information</h3>
+
+                    </div>
+
+
+                    <div class="card-content">
+
+                        <div class="profile-grid">
+
+                            <div>
+
+                                <span class="kpi-label">
+                                    Customer ID
+                                </span>
+
+                                <strong id="customerId">
+                                    Loading...
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span class="kpi-label">
+                                    Customer Name
+                                </span>
+
+                                <strong id="customerName">
+                                    Loading...
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span class="kpi-label">
+                                    Email
+                                </span>
+
+                                <strong id="customerEmail">
+                                    Loading...
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span class="kpi-label">
+                                    Region
+                                </span>
+
+                                <strong id="customerRegion">
+                                    Loading...
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span class="kpi-label">
+                                    Segment
+                                </span>
+
+                                <strong id="customerSegment">
+                                    Loading...
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span class="kpi-label">
+                                    Signup Date
+                                </span>
+
+                                <strong id="signupDate">
+                                    Loading...
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Customer Metrics -->
+
+                <div class="kpi-grid">
+
+
+                    <div class="kpi-card">
+
+                        <span class="kpi-label">
+                            Total Activities
+                        </span>
+
+                        <strong id="totalActivities">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="kpi-card">
+
+                        <span class="kpi-label">
+                            Total Quantity
+                        </span>
+
+                        <strong id="totalQuantity">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="kpi-card">
+
+                        <span class="kpi-label">
+                            Total Spending
+                        </span>
+
+                        <strong id="totalSpending">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="kpi-card">
+
+                        <span class="kpi-label">
+                            Last Activity
+                        </span>
+
+                        <strong id="lastActivity">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- Customer Summary -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+
+                        <h3>Customer Summary</h3>
+
+                    </div>
+
+
+                    <div class="card-content">
+
+                        <p id="profileMessage">
+                            Loading customer profile...
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="js/customer-profile.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers | ClientPulse</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <h1>ClientPulse</h1>
+            <p>Customer Intelligence</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item">Dashboard</a>
+            <a href="customers.html" class="nav-item active">Customers</a>
+            <a href="customer-segments.html" class="nav-item">Customer Segments</a>
+            <a href="retention.html" class="nav-item">Retention</a>
+            <a href="at-risk.html" class="nav-item">At-Risk Customers</a>
+            <a href="revenue-engagement.html" class="nav-item">Revenue & Engagement</a>
+        </nav>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <header class="top-header">
+
+            <div>
+                <h2>Customers</h2>
+                <p>Manage and explore customer information</p>
+            </div>
+
+            <div class="user-area">
+                <span>Welcome</span>
+            </div>
+
+        </header>
+
+
+        <section class="dashboard-content">
+
+            <div class="page-intro">
+
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:15px;">
+
+                    <div>
+                        <h2>Customer Directory</h2>
+                        <p>Search, manage and monitor customers.</p>
+                    </div>
+
+                    <button
+                        class="primary-button"
+                        onclick="openAddCustomerModal()">
+                        + Add Customer
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="filter-container">
+
+                <input
+                    type="text"
+                    id="customerSearch"
+                    placeholder="Search by name or customer ID">
+
+                <select id="regionFilter">
+                    <option value="">All Regions</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                </select>
+
+                <select id="segmentFilter">
+                    <option value="">All Segments</option>
+                    <option value="High Value">High Value</option>
+                    <option value="Regular">Regular</option>
+                    <option value="New">New</option>
+                    <option value="At Risk">At Risk</option>
+                </select>
+
+                <select id="statusFilter">
+                    <option value="">All Statuses</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+
+            </div>
+
+
+            <div class="table-card">
+
+                <div class="card-header">
+                    <h3>Customer List</h3>
+                </div>
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Region</th>
+                                <th>Segment</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="customerTableBody">
+
+                            <tr>
+                                <td colspan="7" class="table-message">
+                                    Loading customers...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- Customer Modal -->
+
+<div
+    id="customerModal"
+    style="
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(15,23,42,0.55);
+        align-items:center;
+        justify-content:center;
+        z-index:1000;
+        padding:20px;
+    "
+>
+
+    <div
+        style="
+            background:#fff;
+            width:100%;
+            max-width:600px;
+            border-radius:12px;
+            padding:26px;
+            max-height:90vh;
+            overflow-y:auto;
+        "
+    >
+
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-bottom:22px;
+            "
+        >
+
+            <h2 id="modalTitle">
+                Add Customer
+            </h2>
+
+            <button
+                type="button"
+                onclick="closeCustomerModal()"
+                style="
+                    background:#f1f5f9;
+                    color:#475569;
+                    font-size:18px;
+                    padding:6px 10px;
+                "
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="customerForm">
+
+            <input
+                type="hidden"
+                id="editCustomerId"
+            >
+
+
+            <div class="filter-container" style="padding:0; border:none; margin:0;">
+
+                <div style="width:100%;">
+
+                    <label>Customer ID</label>
+
+                    <input
+                        type="text"
+                        id="formCustomerId"
+                        placeholder="Example: C006"
+                        required
+                        style="width:100%; margin-top:6px;"
+                    >
+
+                </div>
+
+
+                <div style="width:100%;">
+
+                    <label>Customer Name</label>
+
+                    <input
+                        type="text"
+                        id="formCustomerName"
+                        placeholder="Customer name"
+                        required
+                        style="width:100%; margin-top:6px;"
+                    >
+
+                </div>
+
+
+                <div style="width:100%;">
+
+                    <label>Email</label>
+
+                    <input
+                        type="email"
+                        id="formEmail"
+                        placeholder="customer@email.com"
+                        style="width:100%; margin-top:6px;"
+                    >
+
+                </div>
+
+
+                <div style="width:100%;">
+
+                    <label>Gender</label>
+
+                    <select
+                        id="formGender"
+                        style="width:100%; margin-top:6px;"
+                    >
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                </div>
+
+
+                <div style="width:100%;">
+
+                    <label>Age</label>
+
+                    <input
+                        type="number"
+                        id="formAge"
+                        min="1"
+                        max="120"
+                        placeholder="Age"
+                        style="width:100%; margin-top:6px;"
+                    >
+
+                </div>
+
+
+                <div style="width:100%;">
+
+                    <label>Region</label>
+
+                    <select
+                        id="formRegion"
+                        required
+                        style="width:100%; margin-top:6px;"
+                    >
+                        <option value="">Select Region</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Delhi">Delhi</option>
+                    </select>
+
+                </div>
+
+
+                <div style="width:100%;">
+
+                    <label>Customer Segment</label>
+
+                    <select
+                        id="formSegment"
+                        style="width:100%; margin-top:6px;"
+                    >
+                        <option value="New">New</option>
+                        <option value="Regular">Regular</option>
+                        <option value="High Value">High Value</option>
+                        <option value="At Risk">At Risk</option>
+                    </select>
+
+                </div>
+
+
+                <div style="width:100%;">
+
+                    <label>Signup Date</label>
+
+                    <input
+                        type="date"
+                        id="formSignupDate"
+                        style="width:100%; margin-top:6px;"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div
+                style="
+                    display:flex;
+                    justify-content:flex-end;
+                    gap:10px;
+                    margin-top:22px;
+                "
+            >
+
+                <button
+                    type="button"
+                    onclick="closeCustomerModal()"
+                    style="
+                        background:#e5e7eb;
+                        color:#374151;
+                    "
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Save Customer
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="js/customers.js"></script>
+
+</body>
+</html>
